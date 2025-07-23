@@ -298,6 +298,51 @@ body {
     transform: translateY(-2px);
 }
 
+/* Forzar visibilidad del botón calendario */
+#calendar-button {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: #4CAF50 !important;
+    border: 3px solid #2E7D32 !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+}
+
+#calendar-button i {
+    color: white !important;
+    font-size: 1.5rem !important;
+}
+
+.calendar-btn {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 2px solid rgba(255, 255, 255, 0.9) !important;
+    animation: pulse 2s infinite;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.calendar-btn i {
+    color: #333 !important;
+    font-size: 1.3rem !important;
+    font-weight: bold !important;
+}
+
+.calendar-btn:hover {
+    animation: bounce 0.6s ease-in-out;
+    background: rgba(255, 255, 255, 0.6) !important;
+}
+
+@keyframes bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+}
+
 .modern-btn {
     position: relative;
     overflow: hidden;
@@ -1537,7 +1582,43 @@ body {
 }
 
 /* ============================================
-   📭 ESTADO VACÍO MEJORADO
+   � ESTILOS PARA FECHAS DE ENTREGA
+   ============================================ */
+.task-due-date {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #e2e8f0;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: var(--transition);
+}
+
+.task-due-date.warning {
+    background: #fefcbf;
+    color: #d69e2e;
+    animation: pulse 2s infinite;
+}
+
+.task-due-date.overdue {
+    background: #fed7d7;
+    color: #c53030;
+    animation: pulse 2s infinite;
+}
+
+.task-completed {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--success-color);
+    font-size: 0.8rem;
+}
+
+/* ============================================
+   �📭 ESTADO VACÍO MEJORADO
    ============================================ */
 .empty-state {
     text-align: center;
@@ -2679,6 +2760,18 @@ body {
     min-height: 100px;
 }
 
+/* Estilos específicos para campos de fecha */
+.input-group input[type="date"] {
+    color-scheme: light;
+    cursor: pointer;
+}
+
+.input-group input[type="date"]::-webkit-calendar-picker-indicator {
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236B7280'%3e%3cpath fill-rule='evenodd' d='M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z' clip-rule='evenodd'%3e%3c/path%3e%3c/svg%3e") no-repeat;
+    cursor: pointer;
+    padding: 2px;
+}
+
 .form-actions {
     display: flex;
     gap: 15px;
@@ -3450,5 +3543,429 @@ body {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+}
+
+/* ============================================
+   📅 ESTILOS DEL CALENDARIO/AGENDA
+   ============================================ */
+.calendario-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.calendario-modal.show {
+    opacity: 1;
+}
+
+.calendario-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.calendario-card {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    width: 95%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    z-index: 1001;
+    transform: scale(0.9);
+    transition: var(--transition);
+}
+
+.calendario-modal.show .calendario-card {
+    transform: scale(1);
+}
+
+.calendario-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.calendario-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.calendario-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.btn-nav {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mes-actual {
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-width: 120px;
+    text-align: center;
+}
+
+.calendario-body {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    max-height: 600px;
+    overflow: hidden;
+}
+
+.calendario-grid {
+    background: var(--gray-50);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.calendario-header-dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+.dia-header {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 8px;
+}
+
+.calendario-dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.dia-calendario {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    padding: 8px 4px;
+    min-height: 80px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dia-calendario:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.dia-calendario.activo {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.dia-calendario.otro-mes {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.dia-calendario.hoy {
+    border: 2px solid var(--warning-color);
+    background: rgba(237, 137, 54, 0.1);
+}
+
+.dia-numero {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.tareas-indicador {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tarea-punto {
+    width: 100%;
+    height: 3px;
+    border-radius: 2px;
+    opacity: 0.8;
+}
+
+.tarea-punto.completada {
+    background: var(--success-color);
+}
+
+.tarea-punto.proceso {
+    background: var(--warning-color);
+}
+
+.tarea-punto.pendiente {
+    background: var(--primary-color);
+}
+
+.tarea-punto.vencida {
+    background: var(--danger-color);
+}
+
+.tarea-punto.mas {
+    background: var(--gray-400);
+    color: var(--white);
+    font-size: 0.6rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    height: 4px;
+    min-width: 20px;
+    padding: 0 2px;
+}
+
+.tareas-dia-panel {
+    background: var(--gray-50);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    overflow-y: auto;
+    border: 1px solid var(--gray-200);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.fecha-seleccionada {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.btn-close-panel {
+    background: transparent;
+    border: none;
+    color: var(--gray-500);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.btn-close-panel:hover {
+    background: var(--gray-200);
+    color: var(--dark-color);
+}
+
+.tareas-del-dia {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tarea-calendario {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    transition: var(--transition);
+    border-left: 4px solid var(--gray-300);
+}
+
+.tarea-calendario:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.tarea-calendario.completada {
+    border-left-color: var(--success-color);
+    background: rgba(72, 187, 120, 0.05);
+}
+
+.tarea-calendario.proceso {
+    border-left-color: var(--warning-color);
+    background: rgba(237, 137, 54, 0.05);
+}
+
+.tarea-calendario.pendiente {
+    border-left-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.tarea-calendario.vencida {
+    border-left-color: var(--danger-color);
+    background: rgba(245, 101, 101, 0.05);
+}
+
+.tarea-calendario-titulo {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 5px;
+}
+
+.tarea-calendario-descripcion {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    margin-bottom: 10px;
+}
+
+.tarea-calendario-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: var(--gray-500);
+}
+
+.calendario-leyenda {
+    background: var(--gray-50);
+    padding: 15px 30px;
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--gray-600);
+}
+
+.color-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.color-indicator.completada {
+    background: var(--success-color);
+}
+
+.color-indicator.proceso {
+    background: var(--warning-color);
+}
+
+.color-indicator.pendiente {
+    background: var(--primary-color);
+}
+
+.color-indicator.vencida {
+    background: var(--danger-color);
+}
+
+.empty-state-calendar {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray-500);
+}
+
+.empty-state-calendar i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-state-calendar p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Responsive para el calendario */
+@media (max-width: 768px) {
+    .calendario-card {
+        width: 98%;
+        max-height: 95vh;
+    }
+    
+    .calendario-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .calendario-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+        max-height: none;
+    }
+    
+    .dia-calendario {
+        min-height: 60px;
+        padding: 6px 3px;
+    }
+    
+    .calendario-nav {
+        order: -1;
+    }
+    
+    .calendario-leyenda {
+        gap: 15px;
     }
 }

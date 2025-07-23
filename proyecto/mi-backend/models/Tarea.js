@@ -34,6 +34,10 @@ const tareaSchema = new mongoose.Schema({
     type: String,
     enum: ['baja', 'media', 'alta'],
     default: 'media'
+  },
+  fechaEntrega: {
+    type: Date,
+    default: null
   }
 }, {
   timestamps: true, // Añade createdAt y updatedAt automáticamente

@@ -69,7 +69,7 @@ router.get('/:id', async (req, res) => {
 // Crear nueva tarea
 router.post('/', async (req, res) => {
   try {
-    const { titulo, descripcion, prioridad } = req.body;
+    const { titulo, descripcion, prioridad, fechaEntrega } = req.body;
     
     // Validaciones básicas
     if (!titulo || titulo.trim() === '') {
@@ -82,7 +82,8 @@ router.post('/', async (req, res) => {
     const nuevaTarea = new Tarea({
       titulo: titulo.trim(),
       descripcion: descripcion?.trim() || '',
-      prioridad: prioridad || 'media'
+      prioridad: prioridad || 'media',
+      fechaEntrega: fechaEntrega || null
     });
 
     const tareaGuardada = await nuevaTarea.save();
@@ -115,7 +116,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { completada, titulo, descripcion, prioridad, estado } = req.body;
+    const { completada, titulo, descripcion, prioridad, estado, fechaEntrega } = req.body;
 
     const updateData = {};
     
@@ -142,6 +143,10 @@ router.put('/:id', async (req, res) => {
 
     if (prioridad && ['baja', 'media', 'alta'].includes(prioridad)) {
       updateData.prioridad = prioridad;
+    }
+
+    if (fechaEntrega !== undefined) {
+      updateData.fechaEntrega = fechaEntrega || null;
     }
 
     const tareaActualizada = await Tarea.findByIdAndUpdate(

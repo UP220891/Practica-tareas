@@ -35,6 +35,9 @@
                 <button class="btn-icon" onclick="toggleTheme()" title="Cambiar tema">
                     <i class="fas fa-moon" id="theme-icon"></i>
                 </button>
+                <button class="btn-icon calendar-btn" id="calendar-button" onclick="mostrarCalendario()" title="Vista Calendario" style="display: flex !important; background: rgba(255, 255, 255, 0.8) !important;">
+                    <i class="fas fa-calendar-alt" style="color: #333 !important;"></i>
+                </button>
                 <button class="btn-primary pulse-on-hover" onclick="mostrarFormulario()">
                     <i class="fas fa-plus"></i> Agregar Tarea
                 </button>
@@ -110,6 +113,13 @@
                             <textarea id="descripcion" placeholder=" " maxlength="500"></textarea>
                             <label for="descripcion">
                                 <i class="fas fa-align-left"></i> Descripción (opcional)
+                            </label>
+                            <div class="input-decoration"></div>
+                        </div>
+                        <div class="input-group floating-label">
+                            <input type="date" id="fechaEntrega" placeholder=" " min="" />
+                            <label for="fechaEntrega">
+                                <i class="fas fa-calendar-alt"></i> Fecha de entrega (opcional)
                             </label>
                             <div class="input-decoration"></div>
                         </div>
@@ -434,6 +444,86 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Calendario/Agenda -->
+    <div id="calendario-modal" class="calendario-modal" style="display: none;">
+        <div class="calendario-overlay" onclick="ocultarCalendario()"></div>
+        <div class="calendario-card">
+            <div class="calendario-header">
+                <h2 class="calendario-title">
+                    <i class="fas fa-calendar-alt"></i> Vista de Calendario
+                </h2>
+                <div class="calendario-nav">
+                    <button class="btn-nav" onclick="navegarMes(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="mes-actual" id="mes-actual">Julio 2025</span>
+                    <button class="btn-nav" onclick="navegarMes(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <button class="btn-close" onclick="ocultarCalendario()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="calendario-body">
+                <!-- Vista Mensual -->
+                <div class="calendario-grid" id="calendario-grid">
+                    <div class="calendario-header-dias">
+                        <div class="dia-header">Dom</div>
+                        <div class="dia-header">Lun</div>
+                        <div class="dia-header">Mar</div>
+                        <div class="dia-header">Mié</div>
+                        <div class="dia-header">Jue</div>
+                        <div class="dia-header">Vie</div>
+                        <div class="dia-header">Sáb</div>
+                    </div>
+                    <div class="calendario-dias" id="calendario-dias">
+                        <!-- Los días se generarán dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Panel de Tareas del Día Seleccionado -->
+                <div class="tareas-dia-panel" id="tareas-dia-panel" style="display: none;">
+                    <div class="panel-header">
+                        <h3 class="fecha-seleccionada" id="fecha-seleccionada">
+                            <i class="fas fa-calendar-day"></i>
+                            <span id="fecha-texto">Selecciona un día</span>
+                        </h3>
+                        <button class="btn-close-panel" onclick="cerrarPanelDia()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tareas-del-dia" id="tareas-del-dia">
+                            <!-- Las tareas del día se mostrarán aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leyenda del Calendario -->
+            <div class="calendario-leyenda">
+                <div class="leyenda-item">
+                    <div class="color-indicator completada"></div>
+                    <span>Completadas</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="color-indicator proceso"></div>
+                    <span>En Proceso</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="color-indicator pendiente"></div>
+                    <span>Pendientes</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="color-indicator vencida"></div>
+                    <span>Vencidas</span>
                 </div>
             </div>
         </div>

@@ -51,6 +51,43 @@ function formatearFecha(fecha) {
     return fechaTarea.toLocaleDateString('es-ES');
 }
 
+// Formatear fecha de entrega
+function formatearFechaEntrega(fecha) {
+    const fechaEntrega = new Date(fecha);
+    const ahora = new Date();
+    const diferencia = fechaEntrega - ahora;
+    const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+
+    if (dias < 0) {
+        return `Vencida hace ${Math.abs(dias)} día${Math.abs(dias) > 1 ? 's' : ''}`;
+    } else if (dias === 0) {
+        return 'Vence hoy';
+    } else if (dias === 1) {
+        return 'Vence mañana';
+    } else if (dias <= 7) {
+        return `En ${dias} días`;
+    } else {
+        return fechaEntrega.toLocaleDateString('es-ES');
+    }
+}
+
+// Verificar si una fecha está vencida
+function esFechaVencida(fecha) {
+    const fechaEntrega = new Date(fecha);
+    const ahora = new Date();
+    ahora.setHours(23, 59, 59, 999); // Final del día actual
+    return fechaEntrega < ahora;
+}
+
+// Verificar si una fecha está cercana (dentro de 3 días)
+function esFechaCercana(fecha) {
+    const fechaEntrega = new Date(fecha);
+    const ahora = new Date();
+    const diferencia = fechaEntrega - ahora;
+    const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+    return dias >= 0 && dias <= 3;
+}
+
 // ============================================
 // 🔔 SISTEMA DE NOTIFICACIONES MEJORADO
 // ============================================
@@ -419,6 +456,7 @@ function ocultarFormulario() {
 function limpiarFormulario() {
     document.getElementById('titulo').value = '';
     document.getElementById('descripcion').value = '';
+    document.getElementById('fechaEntrega').value = '';
     
     // Resetear la prioridad al valor por defecto (media)
     const prioridadRadio = document.querySelector('input[name="prioridad"][value="media"]');
@@ -431,6 +469,7 @@ function limpiarFormulario() {
 async function crearTarea() {
     const titulo = document.getElementById('titulo').value.trim();
     const descripcion = document.getElementById('descripcion').value.trim();
+    const fechaEntrega = document.getElementById('fechaEntrega').value;
     
     // Obtener la prioridad seleccionada de los radio buttons
     const prioridadRadio = document.querySelector('input[name="prioridad"]:checked');
@@ -448,6 +487,19 @@ async function crearTarea() {
         return;
     }
 
+    // Validar fecha de entrega (opcional pero si se proporciona debe ser válida)
+    if (fechaEntrega) {
+        const fechaSeleccionada = new Date(fechaEntrega);
+        const fechaActual = new Date();
+        fechaActual.setHours(0, 0, 0, 0); // Normalizar la fecha actual
+        
+        if (fechaSeleccionada < fechaActual) {
+            notificarAdvertencia('La fecha de entrega no puede ser anterior a hoy', 3000);
+            document.getElementById('fechaEntrega').focus();
+            return;
+        }
+    }
+
     try {
         if (tareaEditandoId) {
             // Estamos editando una tarea existente
@@ -456,7 +508,8 @@ async function crearTarea() {
                 body: JSON.stringify({
                     titulo,
                     descripcion,
-                    prioridad
+                    prioridad,
+                    fechaEntrega: fechaEntrega || null
                 })
             });
 
@@ -470,7 +523,8 @@ async function crearTarea() {
             const nuevaTarea = {
                 titulo,
                 descripcion,
-                prioridad
+                prioridad,
+                fechaEntrega: fechaEntrega || null
             };
 
             const tareaCreada = await crearTareaNueva(nuevaTarea);
@@ -559,6 +613,11 @@ function renderizarTareas() {
                     <span class="task-date">
                         <i class="fas fa-clock"></i> ${formatearFecha(tarea.fechaCreacion)}
                     </span>
+                    ${tarea.fechaEntrega ? `
+                        <span class="task-due-date ${esFechaVencida(tarea.fechaEntrega) ? 'overdue' : esFechaCercana(tarea.fechaEntrega) ? 'warning' : ''}">
+                            <i class="fas fa-calendar-alt"></i> Entrega: ${formatearFechaEntrega(tarea.fechaEntrega)}
+                        </span>
+                    ` : ''}
                     ${estado === 'completada' && tarea.fechaCompletada ? `
                         <span class="task-completed">
                             <i class="fas fa-check-circle"></i> ${formatearFecha(tarea.fechaCompletada)}
@@ -627,6 +686,14 @@ function editarTarea(id) {
     // Llenar el formulario con los datos de la tarea
     document.getElementById('titulo').value = tarea.titulo;
     document.getElementById('descripcion').value = tarea.descripcion || '';
+    
+    // Establecer fecha de entrega si existe
+    if (tarea.fechaEntrega) {
+        const fecha = new Date(tarea.fechaEntrega);
+        document.getElementById('fechaEntrega').value = fecha.toISOString().split('T')[0];
+    } else {
+        document.getElementById('fechaEntrega').value = '';
+    }
     
     // Seleccionar la prioridad correcta
     const prioridadRadio = document.querySelector(`input[name="prioridad"][value="${tarea.prioridad}"]`);
@@ -768,6 +835,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Inicializar app
     inicializarApp();
+    
+    // Establecer fecha mínima para el campo de fecha de entrega
+    const fechaEntregaInput = document.getElementById('fechaEntrega');
+    if (fechaEntregaInput) {
+        const hoy = new Date().toISOString().split('T')[0];
+        fechaEntregaInput.setAttribute('min', hoy);
+    }
+    
+    // Verificar que el botón del calendario esté presente
+    const calendarButton = document.getElementById('calendar-button');
+    console.log('🔍 Botón de calendario encontrado:', calendarButton ? 'SÍ' : 'NO');
+    if (calendarButton) {
+        console.log('✅ El botón del calendario está en el DOM');
+    } else {
+        console.error('❌ El botón del calendario NO está en el DOM');
+    }
     
     // Enter para enviar formulario
     document.getElementById('titulo').addEventListener('keypress', (e) => {
@@ -1191,6 +1274,315 @@ document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('estadisticas-modal');
             if (modal && modal.style.display === 'flex') {
                 ocultarEstadisticasDetalladas();
+            }
+        }
+    });
+});
+
+// ============================================
+// 📅 FUNCIONES DEL CALENDARIO
+// ============================================
+
+let fechaCalendarioActual = new Date();
+let diaSeleccionado = null;
+
+// Mostrar modal del calendario
+function mostrarCalendario() {
+    console.log('📅 Mostrando calendario...');
+    
+    const modal = document.getElementById('calendario-modal');
+    if (!modal) {
+        console.error('❌ Modal del calendario no encontrado');
+        return;
+    }
+    
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+    
+    // Establecer fecha actual
+    fechaCalendarioActual = new Date();
+    actualizarCalendario();
+}
+
+// Ocultar modal del calendario
+function ocultarCalendario() {
+    const modal = document.getElementById('calendario-modal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        cerrarPanelDia();
+    }, 300);
+}
+
+// Navegar entre meses
+function navegarMes(direccion) {
+    fechaCalendarioActual.setMonth(fechaCalendarioActual.getMonth() + direccion);
+    actualizarCalendario();
+}
+
+// Actualizar el calendario
+function actualizarCalendario() {
+    console.log('🔄 Actualizando calendario...');
+    console.log('📊 Total de tareas disponibles:', tareas.length);
+    
+    const mesActual = document.getElementById('mes-actual');
+    const diasContainer = document.getElementById('calendario-dias');
+    
+    if (!mesActual || !diasContainer) {
+        console.error('❌ Elementos del calendario no encontrados');
+        return;
+    }
+    
+    // Actualizar título del mes
+    const meses = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+    
+    mesActual.textContent = `${meses[fechaCalendarioActual.getMonth()]} ${fechaCalendarioActual.getFullYear()}`;
+    
+    // Limpiar días anteriores
+    diasContainer.innerHTML = '';
+    
+    // Calcular primer día del mes y días en el mes
+    const primerDia = new Date(fechaCalendarioActual.getFullYear(), fechaCalendarioActual.getMonth(), 1);
+    const ultimoDia = new Date(fechaCalendarioActual.getFullYear(), fechaCalendarioActual.getMonth() + 1, 0);
+    const diasEnMes = ultimoDia.getDate();
+    const primerDiaSemana = primerDia.getDay();
+    
+    console.log(`📅 Generando calendario para ${meses[fechaCalendarioActual.getMonth()]} ${fechaCalendarioActual.getFullYear()}`);
+    console.log(`📊 Días en el mes: ${diasEnMes}, Primer día de la semana: ${primerDiaSemana}`);
+    
+    // Agregar días del mes anterior para completar la primera semana
+    const mesAnterior = new Date(fechaCalendarioActual.getFullYear(), fechaCalendarioActual.getMonth(), 0);
+    for (let i = primerDiaSemana - 1; i >= 0; i--) {
+        const dia = mesAnterior.getDate() - i;
+        const elemento = crearElementoDia(dia, true, new Date(mesAnterior.getFullYear(), mesAnterior.getMonth(), dia));
+        diasContainer.appendChild(elemento);
+    }
+    
+    // Agregar días del mes actual
+    for (let dia = 1; dia <= diasEnMes; dia++) {
+        const fechaDia = new Date(fechaCalendarioActual.getFullYear(), fechaCalendarioActual.getMonth(), dia);
+        const elemento = crearElementoDia(dia, false, fechaDia);
+        diasContainer.appendChild(elemento);
+    }
+    
+    // Agregar días del siguiente mes para completar la última semana
+    const diasRestantes = 42 - (primerDiaSemana + diasEnMes);
+    for (let dia = 1; dia <= diasRestantes; dia++) {
+        const fechaDia = new Date(fechaCalendarioActual.getFullYear(), fechaCalendarioActual.getMonth() + 1, dia);
+        const elemento = crearElementoDia(dia, true, fechaDia);
+        diasContainer.appendChild(elemento);
+    }
+    
+    console.log('✅ Calendario actualizado correctamente');
+}
+
+// Crear elemento de día del calendario
+function crearElementoDia(numeroDia, esOtroMes, fecha) {
+    const hoy = new Date();
+    const elemento = document.createElement('div');
+    elemento.className = 'dia-calendario';
+    
+    if (esOtroMes) {
+        elemento.classList.add('otro-mes');
+    }
+    
+    // Marcar día actual
+    if (fecha.toDateString() === hoy.toDateString()) {
+        elemento.classList.add('hoy');
+    }
+    
+    // Obtener tareas para este día
+    const tareasDelDia = obtenerTareasDelDia(fecha);
+    
+    // Crear indicadores de tareas (máximo 5 para evitar overflow)
+    const indicadoresTareas = tareasDelDia.slice(0, 5).map(tarea => {
+        const estado = obtenerEstadoTarea(tarea, fecha);
+        return `<div class="tarea-punto ${estado}" title="${tarea.titulo}"></div>`;
+    }).join('');
+    
+    // Si hay más de 5 tareas, agregar indicador de "más"
+    const masIndicador = tareasDelDia.length > 5 ? 
+        `<div class="tarea-punto mas" title="+${tareasDelDia.length - 5} más">+${tareasDelDia.length - 5}</div>` : '';
+    
+    elemento.innerHTML = `
+        <div class="dia-numero">${numeroDia}</div>
+        <div class="tareas-indicador">
+            ${indicadoresTareas}
+            ${masIndicador}
+        </div>
+    `;
+    
+    // Agregar event listener para seleccionar día
+    elemento.addEventListener('click', () => {
+        if (!esOtroMes) {
+            seleccionarDia(fecha, elemento);
+        }
+    });
+    
+    return elemento;
+}
+
+// Obtener tareas para un día específico
+function obtenerTareasDelDia(fecha) {
+    if (!tareas || tareas.length === 0) {
+        return [];
+    }
+    
+    const tareasDelDia = tareas.filter(tarea => {
+        if (!tarea.fechaEntrega) return false;
+        
+        try {
+            const fechaEntrega = new Date(tarea.fechaEntrega);
+            const fechaComparar = new Date(fecha);
+            
+            // Comparar solo año, mes y día (ignorar hora)
+            return fechaEntrega.getFullYear() === fechaComparar.getFullYear() &&
+                   fechaEntrega.getMonth() === fechaComparar.getMonth() &&
+                   fechaEntrega.getDate() === fechaComparar.getDate();
+        } catch (error) {
+            console.error('Error al comparar fechas:', error);
+            return false;
+        }
+    });
+    
+    return tareasDelDia;
+}
+
+// Determinar el estado de una tarea para el calendario
+function obtenerEstadoTarea(tarea, fecha) {
+    const hoy = new Date();
+    const fechaEntrega = new Date(tarea.fechaEntrega);
+    
+    if (tarea.estado === 'completada' || tarea.completada) {
+        return 'completada';
+    }
+    
+    if (fechaEntrega < hoy && tarea.estado !== 'completada') {
+        return 'vencida';
+    }
+    
+    if (tarea.estado === 'proceso') {
+        return 'proceso';
+    }
+    
+    return 'pendiente';
+}
+
+// Seleccionar un día del calendario
+function seleccionarDia(fecha, elemento) {
+    // Remover selección anterior
+    document.querySelectorAll('.dia-calendario.activo').forEach(dia => {
+        dia.classList.remove('activo');
+    });
+    
+    // Agregar selección al día actual
+    elemento.classList.add('activo');
+    diaSeleccionado = fecha;
+    
+    // Mostrar panel de tareas del día
+    mostrarTareasDelDia(fecha);
+}
+
+// Mostrar tareas del día seleccionado
+function mostrarTareasDelDia(fecha) {
+    const panel = document.getElementById('tareas-dia-panel');
+    const fechaTexto = document.getElementById('fecha-texto');
+    const tareasContainer = document.getElementById('tareas-del-dia');
+    
+    // Formatear fecha
+    const opciones = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    fechaTexto.textContent = fecha.toLocaleDateString('es-ES', opciones);
+    
+    // Obtener tareas del día
+    const tareasDelDia = obtenerTareasDelDia(fecha);
+    
+    if (tareasDelDia.length === 0) {
+        tareasContainer.innerHTML = `
+            <div class="empty-state-calendar">
+                <i class="fas fa-calendar-check"></i>
+                <p>No hay tareas programadas para este día</p>
+            </div>
+        `;
+    } else {
+        tareasContainer.innerHTML = tareasDelDia.map(tarea => {
+            const estado = obtenerEstadoTarea(tarea, fecha);
+            const iconoEstado = {
+                'completada': 'fas fa-check-circle',
+                'proceso': 'fas fa-spinner',
+                'pendiente': 'fas fa-clock',
+                'vencida': 'fas fa-exclamation-triangle'
+            };
+            
+            return `
+                <div class="tarea-calendario ${estado}">
+                    <div class="tarea-calendario-titulo">
+                        <i class="${iconoEstado[estado]}"></i>
+                        ${tarea.titulo}
+                    </div>
+                    ${tarea.descripcion ? `
+                        <div class="tarea-calendario-descripcion">${tarea.descripcion}</div>
+                    ` : ''}
+                    <div class="tarea-calendario-meta">
+                        <span class="tarea-prioridad ${tarea.prioridad}">
+                            ${tarea.prioridad === 'alta' ? '🔴' : tarea.prioridad === 'media' ? '🟡' : '🟢'} 
+                            ${tarea.prioridad.charAt(0).toUpperCase() + tarea.prioridad.slice(1)}
+                        </span>
+                        <span class="tarea-estado-texto">
+                            ${estado === 'completada' ? 'Completada' : 
+                              estado === 'proceso' ? 'En Proceso' : 
+                              estado === 'vencida' ? 'Vencida' : 'Pendiente'}
+                        </span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // Mostrar panel
+    panel.style.display = 'block';
+}
+
+// Cerrar panel de tareas del día
+function cerrarPanelDia() {
+    const panel = document.getElementById('tareas-dia-panel');
+    panel.style.display = 'none';
+    
+    // Remover selección de día
+    document.querySelectorAll('.dia-calendario.activo').forEach(dia => {
+        dia.classList.remove('activo');
+    });
+    
+    diaSeleccionado = null;
+}
+
+// Event listeners para el calendario
+document.addEventListener('DOMContentLoaded', () => {
+    // Cerrar modal del calendario al hacer clic fuera
+    const modalCalendario = document.getElementById('calendario-modal');
+    if (modalCalendario) {
+        modalCalendario.addEventListener('click', function(e) {
+            if (e.target === modalCalendario) {
+                ocultarCalendario();
+            }
+        });
+    }
+    
+    // Cerrar modal del calendario con Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('calendario-modal');
+            if (modal && modal.classList.contains('show')) {
+                ocultarCalendario();
             }
         }
     });
