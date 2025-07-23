@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>✅ Gestor de Tareas</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="animated-title">
+                    <i class="fas fa-tasks pulse"></i> 
+                    <span class="gradient-text">Gestor de Tareas</span>
+                </h1>
+                <p class="subtitle">
+                    <i class="fas fa-magic"></i> Organiza tu día de manera eficiente
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="toggleTheme()" title="Cambiar tema">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <button class="btn-primary pulse-on-hover" onclick="mostrarFormulario()">
+                    <i class="fas fa-plus"></i> Agregar Tarea
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Estadísticas mejoradas -->
+            <section class="stats-section" id="estadisticas">
+                <div class="stat-card hover-lift">
+                    <div class="stat-icon">
+                        <i class="fas fa-list-ul"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number count-up" data-target="0" id="total-tareas">0</span>
+                        <span class="stat-label">Total de Tareas</span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+                <div class="stat-card hover-lift">
+                    <div class="stat-icon completed">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number count-up" data-target="0" id="tareas-completadas">0</span>
+                        <span class="stat-label">Completadas</span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+                <div class="stat-card hover-lift">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number count-up" data-target="0" id="tareas-pendientes">0</span>
+                        <span class="stat-label">Pendientes</span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+                <div class="stat-card hover-lift">
+                    <div class="stat-icon process">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-number count-up" data-target="0" id="tareas-proceso">0</span>
+                        <span class="stat-label">En Proceso</span>
+                    </div>
+                    <div class="stat-decoration"></div>
+                </div>
+            </section>
+
+            <!-- Formulario con efectos glassmorphism -->
+            <section class="form-section" id="form-section">
+                <div class="form-overlay" onclick="ocultarFormulario()"></div>
+                <div class="form-card glassmorphism slide-in">
+                    <div class="form-header">
+                        <h3 class="form-title">
+                            <i class="fas fa-sparkles"></i> Nueva Tarea
+                        </h3>
+                        <button class="btn-close modern-close" onclick="ocultarFormulario()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-body">
+                        <div class="input-group floating-label">
+                            <input type="text" id="titulo" placeholder=" " maxlength="100" required />
+                            <label for="titulo">
+                                <i class="fas fa-heading"></i> Título de la tarea
+                            </label>
+                            <div class="input-decoration"></div>
+                        </div>
+                        <div class="input-group floating-label">
+                            <textarea id="descripcion" placeholder=" " maxlength="500"></textarea>
+                            <label for="descripcion">
+                                <i class="fas fa-align-left"></i> Descripción (opcional)
+                            </label>
+                            <div class="input-decoration"></div>
+                        </div>
+                        <div class="priority-selector">
+                            <label class="priority-label">
+                                <i class="fas fa-flag"></i> Prioridad
+                            </label>
+                            <div class="priority-options">
+                                <label class="priority-option" data-priority="baja">
+                                    <input type="radio" name="prioridad" value="baja">
+                                    <span class="priority-btn low">
+                                        <i class="fas fa-circle"></i>
+                                        Baja
+                                    </span>
+                                </label>
+                                <label class="priority-option" data-priority="media">
+                                    <input type="radio" name="prioridad" value="media" checked>
+                                    <span class="priority-btn medium">
+                                        <i class="fas fa-circle"></i>
+                                        Media
+                                    </span>
+                                </label>
+                                <label class="priority-option" data-priority="alta">
+                                    <input type="radio" name="prioridad" value="alta">
+                                    <span class="priority-btn high">
+                                        <i class="fas fa-circle"></i>
+                                        Alta
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary modern-btn" onclick="ocultarFormulario()">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                            <button type="button" class="btn-primary modern-btn" onclick="crearTarea()">
+                                <i class="fas fa-magic"></i> Crear Tarea
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filtros con efectos modernos -->
+            <section class="filters-section glassmorphism">
+                <div class="progress-indicator">
+                    <div class="progress-ring">
+                        <svg class="progress-ring-svg" width="60" height="60">
+                            <circle
+                                class="progress-ring-circle-bg"
+                                stroke="rgba(255, 255, 255, 0.2)"
+                                stroke-width="4"
+                                fill="transparent"
+                                r="26"
+                                cx="30"
+                                cy="30"
+                            />
+                            <circle
+                                class="progress-ring-circle"
+                                stroke="url(#progressGradient)"
+                                stroke-width="4"
+                                fill="transparent"
+                                r="26"
+                                cx="30"
+                                cy="30"
+                                stroke-linecap="round"
+                                stroke-dasharray="163.36 163.36"
+                                stroke-dashoffset="163.36"
+                            />
+                            <defs>
+                                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#8BC34A;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="progress-text">
+                            <span class="progress-percentage" id="progreso-porcentaje">0%</span>
+                        </div>
+                    </div>
+                    <div class="progress-label">
+                        <i class="fas fa-chart-line"></i>
+                        Progreso
+                    </div>
+                </div>
+                <div class="filters">
+                    <div class="filter-group">
+                        <button class="filter-btn active modern-filter" onclick="filtrarTareas('todas')" data-filter="todas">
+                            <i class="fas fa-list"></i> 
+                            <span>Todas</span>
+                            <span class="filter-count" id="count-todas">0</span>
+                        </button>
+                        <button class="filter-btn modern-filter" onclick="filtrarTareas('pendientes')" data-filter="pendientes">
+                            <i class="fas fa-clock"></i> 
+                            <span>Pendientes</span>
+                            <span class="filter-count" id="count-pendientes">0</span>
+                        </button>
+                        <button class="filter-btn modern-filter" onclick="filtrarTareas('proceso')" data-filter="proceso">
+                            <i class="fas fa-spinner"></i> 
+                            <span>En Proceso</span>
+                            <span class="filter-count" id="count-proceso">0</span>
+                        </button>
+                        <button class="filter-btn modern-filter" onclick="filtrarTareas('completadas')" data-filter="completadas">
+                            <i class="fas fa-check"></i> 
+                            <span>Completadas</span>
+                            <span class="filter-count" id="count-completadas">0</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="btn-icon stats-btn" onclick="mostrarEstadisticasDetalladas()" title="Ver estadísticas detalladas">
+                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    </button>
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="cambiarVista('lista')" data-view="lista" title="Vista Lista">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="view-btn" onclick="cambiarVista('grid')" data-view="grid" title="Vista Grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                    </div>
+                    <button class="btn-danger modern-danger" onclick="eliminarCompletadas()" title="Limpiar completadas">
+                        <i class="fas fa-trash-alt"></i> Limpiar
+                    </button>
+                </div>
+            </section>
+
+            <!-- Lista de tareas con nuevos efectos -->
+            <section class="tasks-section">
+                <div class="tasks-header">
+                    <div class="sort-controls">
+                        <select id="sort-select" onchange="ordenarTareas(this.value)" class="modern-select">
+                            <option value="fecha-desc">Más recientes</option>
+                            <option value="fecha-asc">Más antiguas</option>
+                            <option value="prioridad">Por prioridad</option>
+                            <option value="nombre">Por nombre</option>
+                        </select>
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="buscar-tareas" placeholder="Buscar tareas..." onkeyup="buscarTareas(this.value)">
+                    </div>
+                </div>
+                
+                <div id="lista-tareas" class="tasks-container lista-view">
+                    <div class="empty-state animated">
+                        <div class="empty-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                            <div class="icon-sparkles">
+                                <i class="fas fa-sparkles sparkle-1"></i>
+                                <i class="fas fa-sparkles sparkle-2"></i>
+                                <i class="fas fa-sparkles sparkle-3"></i>
+                            </div>
+                        </div>
+                        <h3>¡No hay tareas!</h3>
+                        <p>Agrega tu primera tarea para comenzar tu viaje productivo</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer glassmorphism">
+            <p>
+                <i class="fas fa-heart text-red heartbeat"></i> 
+                © 2025 Gestor de Tareas - Melissa, Flor, Chapa y Braulio
+            </p>
+        </footer>
+    </div>
+
+    <!-- Modal de Estadísticas Detalladas -->
+    <div id="estadisticas-modal" class="estadisticas-modal" style="display: none;">
+        <div class="estadisticas-overlay" onclick="ocultarEstadisticasDetalladas()"></div>
+        <div class="estadisticas-card">
+            <div class="estadisticas-header">
+                <h2 class="estadisticas-title">
+                    <i class="fas fa-chart-pie"></i> Estadísticas Detalladas
+                </h2>
+                <button class="btn-close" onclick="ocultarEstadisticasDetalladas()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="estadisticas-body">
+                <!-- Resumen General -->
+                <div class="estadisticas-seccion">
+                    <h3 class="seccion-titulo">
+                        <i class="fas fa-chart-bar"></i> Resumen General
+                    </h3>
+                    <div class="metricas-grid">
+                        <div class="metrica-card">
+                            <div class="metrica-icono total">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="metrica-info">
+                                <span class="metrica-numero" id="stats-total">0</span>
+                                <span class="metrica-label">Total Creadas</span>
+                            </div>
+                        </div>
+                        <div class="metrica-card">
+                            <div class="metrica-icono completadas">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="metrica-info">
+                                <span class="metrica-numero" id="stats-completadas">0</span>
+                                <span class="metrica-label">Completadas</span>
+                            </div>
+                        </div>
+                        <div class="metrica-card">
+                            <div class="metrica-icono proceso">
+                                <i class="fas fa-spinner"></i>
+                            </div>
+                            <div class="metrica-info">
+                                <span class="metrica-numero" id="stats-proceso">0</span>
+                                <span class="metrica-label">En Proceso</span>
+                            </div>
+                        </div>
+                        <div class="metrica-card">
+                            <div class="metrica-icono pendientes">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="metrica-info">
+                                <span class="metrica-numero" id="stats-pendientes">0</span>
+                                <span class="metrica-label">Pendientes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estadísticas por Prioridad -->
+                <div class="estadisticas-seccion">
+                    <h3 class="seccion-titulo">
+                        <i class="fas fa-flag"></i> Distribución por Prioridad
+                    </h3>
+                    <div class="prioridad-stats">
+                        <div class="prioridad-item alta">
+                            <div class="prioridad-info">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Alta Prioridad</span>
+                            </div>
+                            <div class="prioridad-numero">
+                                <span id="stats-alta">0</span>
+                                <span class="porcentaje" id="stats-alta-pct">0%</span>
+                            </div>
+                        </div>
+                        <div class="prioridad-item media">
+                            <div class="prioridad-info">
+                                <i class="fas fa-minus-circle"></i>
+                                <span>Media Prioridad</span>
+                            </div>
+                            <div class="prioridad-numero">
+                                <span id="stats-media">0</span>
+                                <span class="porcentaje" id="stats-media-pct">0%</span>
+                            </div>
+                        </div>
+                        <div class="prioridad-item baja">
+                            <div class="prioridad-info">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Baja Prioridad</span>
+                            </div>
+                            <div class="prioridad-numero">
+                                <span id="stats-baja">0</span>
+                                <span class="porcentaje" id="stats-baja-pct">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progreso y Rendimiento -->
+                <div class="estadisticas-seccion">
+                    <h3 class="seccion-titulo">
+                        <i class="fas fa-trophy"></i> Progreso y Rendimiento
+                    </h3>
+                    <div class="progreso-grid">
+                        <div class="progreso-card">
+                            <div class="progreso-titulo">Tasa de Completado</div>
+                            <div class="progreso-visual">
+                                <div class="progreso-circular">
+                                    <svg class="progreso-svg" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#48bb78" stroke-width="8" 
+                                                stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" 
+                                                id="progreso-completado" transform="rotate(-90 50 50)"/>
+                                    </svg>
+                                    <div class="progreso-texto">
+                                        <span id="tasa-completado">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progreso-card">
+                            <div class="progreso-titulo">Productividad Semanal</div>
+                            <div class="productividad-info">
+                                <div class="productividad-item">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span>Tareas por día: <strong id="promedio-dia">0</strong></span>
+                                </div>
+                                <div class="productividad-item">
+                                    <i class="fas fa-calendar-week"></i>
+                                    <span>Esta semana: <strong id="tareas-semana">0</strong></span>
+                                </div>
+                                <div class="productividad-item">
+                                    <i class="fas fa-fire"></i>
+                                    <span>Racha actual: <strong id="racha-actual">0 días</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actividad Reciente -->
+                <div class="estadisticas-seccion">
+                    <h3 class="seccion-titulo">
+                        <i class="fas fa-history"></i> Actividad Reciente
+                    </h3>
+                    <div class="actividad-timeline" id="actividad-reciente">
+                        <div class="timeline-item">
+                            <div class="timeline-icono">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="timeline-contenido">
+                                <p>No hay actividad reciente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading mejorado -->
+    <div id="loading" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner modern-loading">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <p>Cargando...</p>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación Personalizado -->
+    <div id="confirmation-modal" class="confirmation-modal" style="display: none;">
+        <div class="confirmation-overlay"></div>
+        <div class="confirmation-card">
+            <div class="confirmation-header">
+                <div class="confirmation-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3 class="confirmation-title">Confirmar Acción</h3>
+            </div>
+            <div class="confirmation-body">
+                <p id="confirmation-message" class="confirmation-text"></p>
+            </div>
+            <div class="confirmation-actions">
+                <button id="confirmation-cancel" class="btn-secondary confirmation-btn">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button id="confirmation-accept" class="btn-danger confirmation-btn">
+                    <i class="fas fa-check"></i> Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
