@@ -1,3 +1,84 @@
+/* Mejorar visibilidad del número de porcentaje de progreso en la barra de filtros en modo oscuro */
+.dark-theme .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.dark-theme .progress-text .progress-percentage {
+    color: #fff !important;
+    font-size: 1.15rem !important;
+    font-weight: 900 !important;
+    text-shadow: 0 1px 4px #000, 0 0px 1px #000 !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: static !important;
+    z-index: 2 !important;
+    line-height: 1;
+}
+/* Mejorar visualmente los números y porcentajes de prioridad en modo oscuro */
+.dark-theme .prioridad-numero span:first-child,
+.dark-theme .prioridad-numero .porcentaje {
+    display: inline-block !important;
+    color: #fff !important;
+    background: rgba(26,26,46,0.7) !important;
+    border: 1.5px solid rgba(255,255,255,0.18) !important;
+    border-radius: 12px !important;
+    font-size: 2.1rem !important;
+    font-weight: 900 !important;
+    margin-left: 10px !important;
+    margin-right: 2px !important;
+    padding: 4px 18px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25) !important;
+    text-shadow: 0 2px 8px #000, 0 0px 2px #000 !important;
+    letter-spacing: 1px !important;
+    vertical-align: middle !important;
+    transition: background 0.3s, color 0.3s;
+}
+
+.dark-theme .prioridad-numero {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+/* Forzar visibilidad del número de progreso circular en modo oscuro */
+.dark-theme .progreso-texto span,
+.dark-theme #tasa-completado {
+    color: #fff !important;
+    text-shadow: 0 2px 8px #000, 0 0px 2px #000 !important;
+    font-weight: 900 !important;
+    font-size: 2rem !important;
+    letter-spacing: 1px !important;
+}
+.dark-theme .progreso-circular .progreso-texto,
+.dark-theme .progreso-visual .progreso-texto,
+.dark-theme .progreso-texto {
+    color: #fff !important;
+    background: rgba(0,0,0,0.85) !important;
+    padding: 8px 16px !important;
+    border-radius: 12px !important;
+    border: 2px solid #fff !important;
+    font-weight: 900 !important;
+    text-shadow: 0 2px 10px #000, 0 0px 4px #000 !important;
+    font-size: 2rem !important;
+    letter-spacing: 1.5px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
+    z-index: 1000 !important;
+    position: relative !important;
+}
 
 /* ============================================
    🎨 GESTOR DE TAREAS - DISEÑO ULTRA MODERNO
@@ -32,6 +113,561 @@
     --transition-fast: all 0.15s ease;
     --glassmorphism-bg: rgba(255, 255, 255, 0.1);
     --glassmorphism-border: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   🌙 TEMA OSCURO MEJORADO
+   ============================================ */
+.dark-theme {
+    --bg-color: #1a1a2e;
+    --bg-secondary: #16213e;
+    --text-color: #ffffff;
+    --text-secondary: #a8b2d1;
+    --primary-color: #4f46e5;
+    --primary-hover: #6366f1;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --white: #ffffff;
+    --black: #000000;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --shadow-lg: rgba(0, 0, 0, 0.6);
+    --shadow-xl: rgba(0, 0, 0, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glassmorphism-bg: rgba(26, 26, 46, 0.3);
+    --glassmorphism-border: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .header {
+    background: rgba(26, 26, 46, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .gradient-text {
+    background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.dark-theme .subtitle {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .glassmorphism {
+    background: var(--glassmorphism-bg) !important;
+    border: 1px solid var(--glassmorphism-border) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .stat-card {
+    background: rgba(26, 26, 46, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .stat-number {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .stat-label {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .filter-btn {
+    background: rgba(26, 26, 46, 0.8) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme .filter-btn.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark-theme .modern-filter {
+    background: rgba(26, 26, 46, 0.8) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme .modern-filter.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark-theme .task-card {
+    background: rgba(26, 26, 46, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+/* Mejorar elementos de tareas en modo oscuro */
+.dark-theme .task-title {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .task-description {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .task-meta {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .task-item {
+    background: rgba(26, 26, 46, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .form-card {
+    background: rgba(26, 26, 46, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme input, 
+.dark-theme textarea, 
+.dark-theme select {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme input::placeholder,
+.dark-theme textarea::placeholder {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .floating-shapes .shape {
+    background: linear-gradient(135deg, 
+        rgba(79, 70, 229, 0.1), 
+        rgba(99, 102, 241, 0.1), 
+        rgba(139, 92, 246, 0.1)
+    ) !important;
+}
+
+/* Mejorar botones de vista en tema oscuro - que coincidan con stats */
+.dark-theme .view-btn {
+    background: rgba(26, 26, 46, 0.8) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+.dark-theme .view-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+.dark-theme .view-btn.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+    color: white !important;
+    border-color: rgba(79, 70, 229, 0.5) !important;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* Mejorar botón de limpiar también */
+.dark-theme .modern-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25) !important;
+}
+
+.dark-theme .modern-danger:hover {
+    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* Mejorar footer en tema oscuro */
+.dark-theme .footer {
+    background: rgba(26, 26, 46, 0.9) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Mejorar filters-section en tema oscuro */
+.dark-theme .filters-section {
+    background: rgba(26, 26, 46, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+/* Mejorar empty state en tema oscuro */
+.dark-theme .empty-state h3 {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .empty-state p {
+    color: var(--text-secondary) !important;
+}
+
+/* Mejorar labels en tema oscuro */
+.dark-theme label {
+    color: var(--text-color) !important;
+}
+
+/* Mejorar progress ring en tema oscuro */
+.dark-theme .progress-percentage {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .progress-label {
+    color: var(--text-secondary) !important;
+}
+
+/* Mejorar search box en tema oscuro */
+.dark-theme .search-box input {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+/* Mejorar select en tema oscuro */
+.dark-theme .modern-select {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+/* Mejorar modales en tema oscuro */
+.dark-theme .estadisticas-modal .estadisticas-card,
+.dark-theme .calendario-modal .calendario-card,
+.dark-theme .confirmation-modal .confirmation-card {
+    background: rgba(26, 26, 46, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .estadisticas-title,
+.dark-theme .calendario-title,
+.dark-theme .confirmation-title {
+    color: var(--text-color) !important;
+}
+
+/* Mejorar texto en estadísticas detalladas - modo oscuro */
+.dark-theme .estadisticas-body h3,
+.dark-theme .estadisticas-body h4,
+.dark-theme .estadisticas-body p,
+.dark-theme .estadisticas-body span,
+.dark-theme .estadisticas-body strong {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .estadisticas-seccion h3 {
+    color: var(--text-color) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme .seccion-titulo {
+    color: var(--text-color) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme .stat-item {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .stat-item strong {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .metrica-card {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .metrica-numero {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 2rem !important;
+}
+
+.dark-theme .metrica-label {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .metrica-label {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .prioridad-stats .prioridad-item,
+.dark-theme .urgencia-stats .urgencia-item {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .prioridad-item .prioridad-etiqueta,
+.dark-theme .urgencia-item .urgencia-etiqueta {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .prioridad-item .prioridad-count,
+.dark-theme .urgencia-item .urgencia-count {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .prioridad-numero span:first-child {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}
+
+.dark-theme .prioridad-numero span {
+    color: #ffffff !important;
+}
+
+.dark-theme .porcentaje {
+    color: var(--text-secondary) !important;
+}
+
+.dark-theme .progreso-titulo {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .urgencia-stats .urgencia-item {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .urgencia-numero span:first-child {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+}
+
+.dark-theme .productividad-info {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .productividad-item {
+    background: rgba(26, 26, 46, 0.6) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .productividad-item i {
+    color: var(--primary-color) !important;
+}
+
+.dark-theme .progreso-texto {
+    color: #000000 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    padding: 4px 8px !important;
+    border-radius: 8px !important;
+    border: 2px solid #10b981 !important;
+}
+
+.dark-theme .progreso-visual {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border-radius: var(--border-radius) !important;
+    padding: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .progreso-card {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .progreso-grid {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .actividad-timeline {
+    background: rgba(26, 26, 46, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .timeline-item {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+}
+
+.dark-theme .timeline-contenido p,
+.dark-theme .timeline-contenido strong {
+    color: var(--text-color) !important;
+}
+
+.dark-theme .timeline-fecha {
+    color: var(--text-secondary) !important;
+}
+
+/* Mejorar botones del modal en tema oscuro */
+.dark-theme .btn-nav {
+    background: rgba(26, 26, 46, 0.8) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme .btn-close,
+.dark-theme .btn-close-panel {
+    background: rgba(26, 26, 46, 0.8) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Mejorar leyenda del calendario en tema oscuro */
+.dark-theme .calendario-leyenda {
+    background: rgba(26, 26, 46, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .leyenda-item span {
+    color: var(--text-color) !important;
+}
+
+/* ============================================
+   🔢 CORRECCIONES GENERALES PARA NÚMEROS EN MODO OSCURO
+   ============================================ */
+/* Asegurar que TODOS los números sean visibles en modo oscuro */
+.dark-theme .stat-number,
+.dark-theme .metrica-numero,
+.dark-theme .prioridad-numero,
+.dark-theme .urgencia-numero,
+.dark-theme .progreso-numero,
+.dark-theme .count-numero,
+.dark-theme .numero,
+.dark-theme [class*="numero"],
+.dark-theme [class*="number"],
+.dark-theme .card-number,
+.dark-theme .display-number {
+    color: #ffffff !important;
+    font-weight: bold !important;
+}
+
+/* Específicamente para números en spans */
+.dark-theme .prioridad-numero span,
+.dark-theme .urgencia-numero span,
+.dark-theme .metrica-numero span,
+.dark-theme .stat-number span {
+    color: #ffffff !important;
+}
+
+/* Para cualquier elemento con texto que sea un número */
+.dark-theme .estadisticas-modal *,
+.dark-theme .metrica-card *,
+.dark-theme .stat-card *,
+.dark-theme .prioridad-item *,
+.dark-theme .urgencia-item * {
+    color: inherit !important;
+}
+
+.dark-theme .estadisticas-modal .numero,
+.dark-theme .metrica-card .numero,
+.dark-theme .stat-card .numero {
+    color: #ffffff !important;
+}
+
+/* Corregir específicamente el texto de progreso circular */
+
+/* Mejorar visibilidad del número de progreso circular en modo oscuro */
+.dark-theme .progreso-circular .progreso-texto,
+.dark-theme .progreso-visual .progreso-texto {
+    color: #fff !important;
+    background: rgba(26, 26, 46, 0.85) !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    border: 2px solid #fff !important;
+    font-weight: 900 !important;
+    text-shadow: 0 2px 8px #000, 0 0px 2px #000 !important;
+    font-size: 1.5rem !important;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* Regla específica para números en los modales de estadísticas */
+/* Números de prioridad y urgencia SIEMPRE blancos, grandes y con sombra en modo oscuro */
+.dark-theme .prioridad-item .prioridad-numero span:first-child,
+.dark-theme .urgencia-item .urgencia-numero span:first-child,
+.dark-theme .prioridad-numero span,
+.dark-theme .urgencia-numero span,
+.dark-theme .metrica-numero,
+.dark-theme .stat-number {
+    color: #fff !important;
+    font-weight: 900 !important;
+    font-size: 2rem !important;
+    background: none !important;
+    padding: 0 !important;
+    border: none !important;
+    text-shadow: 0 2px 8px #000, 0 0px 2px #000 !important;
+}
+
+/* Forzar visibilidad de números específicos */
+.dark-theme .prioridad-numero span:first-child,
+.dark-theme .urgencia-numero span:first-child,
+.dark-theme .metrica-numero,
+.dark-theme .stat-number {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
+    font-weight: 800 !important;
+}
+
+/* Mejorar días del calendario en tema oscuro */
+.dark-theme .dia-calendario {
+    background: rgba(26, 26, 46, 0.8) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .dia-header {
+    color: var(--text-secondary) !important;
+}
+
+/* Mejorar toast notifications en tema oscuro */
+.dark-theme .toast {
+    background: rgba(26, 26, 46, 0.95) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Mejorar loading overlay en tema oscuro */
+.dark-theme .loading-overlay {
+    background: rgba(26, 26, 46, 0.9) !important;
+}
+
+.dark-theme .loading-spinner p {
+    color: var(--text-color) !important;
+}
+
+/* Transiciones suaves para el cambio de tema */
+body {
+    transition: background 0.5s ease-in-out, color 0.5s ease-in-out !important;
+}
+
+.header, .glassmorphism, .stat-card, .filter-btn, .task-card, .form-card {
+    transition: background 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out !important;
+}
+
+/* Efectos para el botón de tema */
+#theme-icon {
+    transition: transform 0.5s ease-in-out, color 0.3s ease !important;
+}
+
+.dark-theme .footer {
+    background: rgba(26, 26, 46, 0.9) !important;
+    color: var(--text-color) !important;
 }
 
 /* Reset y base */
@@ -146,19 +782,22 @@ body {
    🎯 HEADER MEJORADO
    ============================================ */
 .header {
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--border-radius-lg);
-    padding: 30px;
+    padding: 30px !important;
     margin-bottom: 30px;
     box-shadow: var(--shadow-xl);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     flex-wrap: wrap;
     gap: 20px;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 100 !important;
 }
 
 .header-content {
@@ -227,9 +866,12 @@ body {
 }
 
 .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1000 !important;
 }
 
 /* ============================================
@@ -278,19 +920,22 @@ body {
 }
 
 .btn-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: #FF5722 !important;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: var(--white);
+    border: 3px solid #D84315 !important;
+    color: white !important;
     cursor: pointer;
     transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.2rem !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1000 !important;
 }
 
 .btn-icon:hover {
@@ -501,6 +1146,11 @@ body {
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--dark-color);
+}
+
+/* Asegurar que los números de estadísticas se vean en modo oscuro */
+.dark-theme .stat-number {
+    color: #ffffff !important;
 }
 
 .count-up {
@@ -789,12 +1439,12 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
-    min-height: 120px;
 }
 
 .filters {
     display: flex;
-    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
     justify-content: center;
     flex: 1;
 }
@@ -802,97 +1452,8 @@ body {
 .actions {
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-/* Botón de estadísticas mejorado */
-.stats-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 0.875rem 1.5rem;
-    border-radius: 16px;
-    font-size: 0.925rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    box-shadow: 
-        0 4px 15px rgba(102, 126, 234, 0.25),
-        0 2px 8px rgba(102, 126, 234, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    text-transform: none;
-    letter-spacing: 0.025em;
-    min-width: 145px;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.stats-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transition: left 0.6s ease;
-}
-
-.stats-btn:hover::before {
-    left: 100%;
-}
-
-.stats-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 
-        0 8px 32px rgba(102, 126, 234, 0.35),
-        0 4px 16px rgba(102, 126, 234, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.stats-btn:active {
-    transform: translateY(-1px) scale(0.98);
-    box-shadow: 
-        0 4px 20px rgba(102, 126, 234, 0.3),
-        0 2px 10px rgba(102, 126, 234, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.stats-btn i {
-    font-size: 1.1rem;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-    transition: transform 0.3s ease;
-}
-
-.stats-btn:hover i {
-    transform: rotate(10deg) scale(1.1);
-}
-
-/* Pulso sutil para el botón de estadísticas */
-@keyframes stats-pulse {
-    0%, 100% {
-        box-shadow: 
-            0 4px 15px rgba(102, 126, 234, 0.3),
-            0 2px 8px rgba(102, 126, 234, 0.2);
-    }
-    50% {
-        box-shadow: 
-            0 4px 20px rgba(102, 126, 234, 0.4),
-            0 2px 12px rgba(102, 126, 234, 0.3);
-    }
-}
-
-.stats-btn:focus {
-    outline: none;
-    animation: stats-pulse 2s infinite;
+    gap: 12px;
+    flex-wrap: nowrap;
 }
 
 /* Mejorar el spacing del contenedor de acciones */
@@ -983,40 +1544,46 @@ body {
 }
 
 .view-btn {
-    padding: 8px 12px;
-    border: none;
-    background: transparent;
-    border-radius: 20px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     color: var(--gray-600);
+    backdrop-filter: blur(10px);
+    font-weight: 500;
 }
 
 .view-btn.active,
 .view-btn:hover {
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.9);
     color: var(--primary-color);
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+    transform: translateY(-1px);
 }
 
 .modern-danger {
     background: linear-gradient(135deg, var(--danger-color), #e53e3e);
     color: var(--white);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
 }
 
 .modern-danger:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+    background: linear-gradient(135deg, #f87171, var(--danger-color));
 }
 
 /* ============================================
@@ -1065,6 +1632,11 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transform: translate(-50%, -50%);
     font-size: 0.85rem;
     font-weight: 700;
@@ -2393,17 +2965,6 @@ body {
         right: 15px;
     }
     
-    .stats-btn {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.9rem;
-        min-width: 120px;
-        border-radius: 14px;
-    }
-    
-    .stats-btn i {
-        font-size: 1rem;
-    }
-    
     .actions {
         flex-wrap: wrap;
         gap: 12px;
@@ -3311,6 +3872,11 @@ body {
     color: var(--dark-color);
 }
 
+/* Asegurar que los números se vean en modo oscuro */
+.dark-theme .metrica-numero {
+    color: #ffffff !important;
+}
+
 .metrica-label {
     font-size: 0.9rem;
     color: var(--gray-600);
@@ -3371,6 +3937,11 @@ body {
     color: var(--dark-color);
 }
 
+/* Asegurar que los números de prioridad se vean en modo oscuro */
+.dark-theme .prioridad-numero span:first-child {
+    color: #ffffff !important;
+}
+
 .porcentaje {
     font-size: 0.9rem;
     font-weight: 600;
@@ -3403,6 +3974,11 @@ body {
     margin-bottom: 20px;
 }
 
+/* Asegurar que los títulos de progreso se vean en modo oscuro */
+.dark-theme .progreso-titulo {
+    color: #ffffff !important;
+}
+
 .progreso-visual {
     display: flex;
     justify-content: center;
@@ -3429,6 +4005,23 @@ body {
     font-size: 1.5rem;
     font-weight: 800;
     color: var(--success-color);
+    text-shadow: 0 0 3px rgba(255,255,255,0.8);
+    z-index: 10;
+}
+
+/* Forzar visibilidad en modo oscuro */
+.dark-theme .progreso-texto {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-shadow: 0 0 3px rgba(0,0,0,0.8) !important;
+}
+
+/* Regla específica para el progreso circular en modo oscuro */
+.dark-theme .progreso-circular .progreso-texto {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-shadow: 0 0 4px rgba(0,0,0,0.9) !important;
+    z-index: 100 !important;
 }
 
 .productividad-info {

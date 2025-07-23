@@ -917,31 +917,69 @@ function mostrarConfetti() {
     }
 }
 
-// Cambiar tema
+// Cambiar tema con efectos suaves
 function toggleTheme() {
+    console.log('🌙 Cambiando tema...');
+    
     const body = document.body;
     const icon = document.getElementById('theme-icon');
     
+    // Agregar efecto de transición
+    body.style.transition = 'all 0.5s ease-in-out';
+    
     if (body.classList.contains('dark-theme')) {
+        // Cambiar a tema claro
         body.classList.remove('dark-theme');
         icon.className = 'fas fa-moon';
+        icon.style.transform = 'rotate(0deg)';
         localStorage.setItem('theme', 'light');
+        console.log('✅ Tema claro activado');
+        
+        // Mostrar notificación
+        mostrarToast('🌞 Tema claro activado', 'success');
     } else {
+        // Cambiar a tema oscuro
         body.classList.add('dark-theme');
         icon.className = 'fas fa-sun';
+        icon.style.transform = 'rotate(180deg)';
         localStorage.setItem('theme', 'dark');
+        console.log('✅ Tema oscuro activado');
+        
+        // Mostrar notificación
+        mostrarToast('🌙 Tema oscuro activado', 'success');
     }
+    
+    // Animar el botón
+    icon.style.transition = 'transform 0.5s ease-in-out';
 }
 
 // Cargar tema guardado
 function cargarTema() {
+    console.log('🎨 Cargando tema guardado...');
+    
     const theme = localStorage.getItem('theme');
     const body = document.body;
     const icon = document.getElementById('theme-icon');
     
+    // Agregar transición suave
+    body.style.transition = 'all 0.3s ease-in-out';
+    
     if (theme === 'dark') {
         body.classList.add('dark-theme');
-        icon.className = 'fas fa-sun';
+        if (icon) {
+            icon.className = 'fas fa-sun';
+            icon.style.transform = 'rotate(180deg)';
+            icon.style.transition = 'transform 0.3s ease-in-out';
+        }
+        console.log('✅ Tema oscuro cargado');
+    } else {
+        body.classList.remove('dark-theme');
+        if (icon) {
+            icon.className = 'fas fa-moon';
+            icon.style.transform = 'rotate(0deg)';
+            icon.style.transition = 'transform 0.3s ease-in-out';
+        }
+        console.log('✅ Tema claro cargado');
     }
 }
 

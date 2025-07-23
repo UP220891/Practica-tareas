@@ -31,14 +31,14 @@
                     <i class="fas fa-magic"></i> Organiza tu día de manera eficiente
                 </p>
             </div>
-            <div class="header-actions">
-                <button class="btn-icon" onclick="toggleTheme()" title="Cambiar tema">
-                    <i class="fas fa-moon" id="theme-icon"></i>
+            <div class="header-actions" style="display: flex !important; visibility: visible !important; opacity: 1 !important; z-index: 9999 !important;">
+                <button class="btn-icon" onclick="toggleTheme()" title="Cambiar tema" style="display: flex !important; background: #FF5722 !important; width: 50px !important; height: 50px !important; border: 3px solid #D84315 !important; color: white !important;">
+                    <i class="fas fa-moon" id="theme-icon" style="color: white !important; font-size: 1.2rem !important;"></i>
                 </button>
-                <button class="btn-icon calendar-btn" id="calendar-button" onclick="mostrarCalendario()" title="Vista Calendario" style="display: flex !important; background: rgba(255, 255, 255, 0.8) !important;">
-                    <i class="fas fa-calendar-alt" style="color: #333 !important;"></i>
+                <button class="btn-icon calendar-btn" id="calendar-button" onclick="mostrarCalendario()" title="Vista Calendario" style="display: flex !important; background: #4CAF50 !important; width: 50px !important; height: 50px !important; border: 3px solid #2E7D32 !important; color: white !important;">
+                    <i class="fas fa-calendar-alt" style="color: white !important; font-size: 1.2rem !important;"></i>
                 </button>
-                <button class="btn-primary pulse-on-hover" onclick="mostrarFormulario()">
+                <button class="btn-primary pulse-on-hover" onclick="mostrarFormulario()" style="display: flex !important; visibility: visible !important;">
                     <i class="fas fa-plus"></i> Agregar Tarea
                 </button>
             </div>
@@ -230,8 +230,8 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <button class="btn-icon stats-btn" onclick="mostrarEstadisticasDetalladas()" title="Ver estadísticas detalladas">
-                        <i class="fas fa-chart-pie"></i> Estadísticas
+                    <button class="btn-icon" onclick="mostrarEstadisticasDetalladas()" title="Ver estadísticas detalladas">
+                        <i class="fas fa-chart-pie"></i> 
                     </button>
                     <div class="view-toggle">
                         <button class="view-btn active" onclick="cambiarVista('lista')" data-view="lista" title="Vista Lista">
