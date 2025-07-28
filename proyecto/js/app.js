@@ -469,7 +469,8 @@ function limpiarFormulario() {
 async function crearTarea() {
     const titulo = document.getElementById('titulo').value.trim();
     const descripcion = document.getElementById('descripcion').value.trim();
-    const fechaEntrega = document.getElementById('fechaEntrega').value;
+    let fechaEntrega = document.getElementById('fechaEntrega').value;
+    // NO ajustar a UTC, enviar la fecha tal cual yyyy-mm-dd para evitar desfase
     
     // Obtener la prioridad seleccionada de los radio buttons
     const prioridadRadio = document.querySelector('input[name="prioridad"]:checked');
@@ -683,10 +684,13 @@ function editarTarea(id) {
     const tarea = tareas.find(t => t._id === id);
     if (!tarea) return;
 
+    // Mostrar formulario primero (esto limpia los campos)
+    mostrarFormulario();
+
     // Llenar el formulario con los datos de la tarea
     document.getElementById('titulo').value = tarea.titulo;
     document.getElementById('descripcion').value = tarea.descripcion || '';
-    
+
     // Establecer fecha de entrega si existe
     if (tarea.fechaEntrega) {
         const fecha = new Date(tarea.fechaEntrega);
@@ -694,7 +698,7 @@ function editarTarea(id) {
     } else {
         document.getElementById('fechaEntrega').value = '';
     }
-    
+
     // Seleccionar la prioridad correcta
     const prioridadRadio = document.querySelector(`input[name="prioridad"][value="${tarea.prioridad}"]`);
     if (prioridadRadio) {
@@ -704,12 +708,17 @@ function editarTarea(id) {
     // Cambiar el título del formulario
     document.querySelector('.form-title').innerHTML = '<i class="fas fa-edit"></i> Editar Tarea';
     document.querySelector('.form-actions .btn-primary').innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
-    
+
     // Establecer que estamos editando
     tareaEditandoId = id;
-    
-    // Mostrar formulario
-    mostrarFormulario();
+
+    // Hacer scroll suave al formulario para mejor UX
+    setTimeout(() => {
+        const formSection = document.getElementById('form-section');
+        if (formSection) {
+            formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, 200);
 }
 
 // Filtrar tareas

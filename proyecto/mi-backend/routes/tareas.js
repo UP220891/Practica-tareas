@@ -79,11 +79,24 @@ router.post('/', async (req, res) => {
       });
     }
 
+
+    // Si la fechaEntrega viene como string yyyy-mm-dd, convertir a Date local a medianoche
+    let fechaEntregaDate = null;
+    if (fechaEntrega) {
+      if (typeof fechaEntrega === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(fechaEntrega)) {
+        // yyyy-mm-dd a Date local (no UTC)
+        const [year, month, day] = fechaEntrega.split('-').map(Number);
+        fechaEntregaDate = new Date(year, month - 1, day, 0, 0, 0, 0);
+      } else {
+        fechaEntregaDate = fechaEntrega;
+      }
+    }
+
     const nuevaTarea = new Tarea({
       titulo: titulo.trim(),
       descripcion: descripcion?.trim() || '',
       prioridad: prioridad || 'media',
-      fechaEntrega: fechaEntrega || null
+      fechaEntrega: fechaEntregaDate
     });
 
     const tareaGuardada = await nuevaTarea.save();
@@ -146,7 +159,13 @@ router.put('/:id', async (req, res) => {
     }
 
     if (fechaEntrega !== undefined) {
-      updateData.fechaEntrega = fechaEntrega || null;
+      if (fechaEntrega && typeof fechaEntrega === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(fechaEntrega)) {
+        // yyyy-mm-dd a Date local (no UTC)
+        const [year, month, day] = fechaEntrega.split('-').map(Number);
+        updateData.fechaEntrega = new Date(year, month - 1, day, 0, 0, 0, 0);
+      } else {
+        updateData.fechaEntrega = fechaEntrega || null;
+      }
     }
 
     const tareaActualizada = await Tarea.findByIdAndUpdate(
