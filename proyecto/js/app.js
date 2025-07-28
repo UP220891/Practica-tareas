@@ -811,7 +811,7 @@ async function inicializarApp() {
         
         // Mensaje de bienvenida con nueva notificación
         setTimeout(() => {
-            notificarExito('¡Bienvenido al Gestor de Tareas mejorado! 🚀✨', 4000);
+            notificarExito('¡Bienvenido al Gestor de Tareas - Equipo Chapo 🚀✨', 4000);
         }, 1000);
     } else {
         // Mostrar modo offline
